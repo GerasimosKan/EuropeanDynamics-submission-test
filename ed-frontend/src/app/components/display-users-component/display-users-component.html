@@ -1,0 +1,30 @@
+<div class="bg-white shadow rounded-lg p-6">
+  <h2 class="text-2xl font-bold mb-6 text-gray-800">User List</h2>
+
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-left text-sm whitespace-nowrap">
+      <thead>
+        <tr class="bg-gray-50 border-b">
+          <th class="px-6 py-3 font-bold text-gray-600 uppercase tracking-wider">Name</th>
+          <th class="px-6 py-3 font-bold text-gray-600 uppercase tracking-wider">Surname</th>
+          <th class="px-6 py-3 font-bold text-gray-600 uppercase tracking-wider text-right">Action</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+        <tr *ngFor="let user of users$ | async" class="hover:bg-gray-50 transition">
+          <td class="px-6 py-4">{{ user.name }}</td>
+          <td class="px-6 py-4">{{ user.surname }}</td>
+          <td class="px-6 py-4 text-right">
+            <button (click)="openDetail(user)" 
+                    class="text-blue-600 hover:text-blue-800 font-medium hover:underline">
+              View Details →
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<app-user-detail-component *ngIf="selectedUser" [user]="selectedUser" (close)="selectedUser = null">
+</app-user-detail-component>

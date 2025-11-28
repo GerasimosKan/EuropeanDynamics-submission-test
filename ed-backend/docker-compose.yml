@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql
+    container_name: mysql-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: Data
+      MYSQL_USER: gerasimos
+      MYSQL_PASSWORD: gerasimos
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data/data:/var/lib/mysql
+      - ./mysql_data/config:/etc/mysql/conf.d
+      - ./mysql_data/log:/var/log/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: php_my_admin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8585:80"
+
+volumes:
+  dbdata:

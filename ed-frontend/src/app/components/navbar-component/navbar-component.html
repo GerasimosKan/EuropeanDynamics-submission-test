@@ -1,0 +1,14 @@
+<nav class="bg-blue-600 p-4 text-white shadow-md flex justify-between items-center">
+  <div class="text-xl font-bold">
+    <a class="hover:text-blue-100">European Dynamics</a>
+  </div>
+  
+  <div class="space-x-4 flex items-center">
+    <a routerLink="/" class="hover:text-blue-100">Home</a>
+
+    <button (click)="openRegister.emit()" 
+            class="bg-white text-blue-600 font-semibold px-4 py-2 rounded hover:bg-blue-50 transition">
+      Register New User
+    </button>
+  </div>
+</nav>

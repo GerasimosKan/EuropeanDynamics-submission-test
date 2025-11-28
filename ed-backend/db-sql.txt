@@ -1,0 +1,18 @@
+CREATE DATABASE Data;
+USE Data;
+
+CREATE TABLE Users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL,
+    gender VARCHAR(1) NOT NULL,
+    birthdate DATE NOT NULL
+);
+
+CREATE TABLE Addresses (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    address_type VARCHAR(50) NOT NULL,
+    address_text TEXT,
+    FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
+);

@@ -107,5 +107,8 @@ application-secret.properties
 *.jks
 *.p12
 
-# Angular Environments (Optional: uncomment if you want to hide specific env files)
-# src/environments/environment.development.ts
+# ------------------------------------------------------------------
+#  Project Specific / Local Data
+# ------------------------------------------------------------------
+# Specific MySQL data folder to ignore
+ed-backend/mysql_data/
