@@ -5,11 +5,8 @@ import com.edtest.edbackend.entity.User;
 import com.edtest.edbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
-
-
 
 @Service
 public class UserService {
@@ -32,6 +29,21 @@ public class UserService {
             }
         }
         return userRepository.save(user);
+    }
+
+    public User updateUser(User user, Long id) {
+        User userToUpdate = getUserById(id).orElseThrow(()->new RuntimeException("User not found"));
+        userToUpdate.setName(user.getName());
+        userToUpdate.setSurname(user.getSurname());
+        userToUpdate.setAddresses(user.getAddresses());
+        userToUpdate.setBirthdate(user.getBirthdate());
+        userToUpdate.setGender(user.getGender());
+        if (userToUpdate.getAddresses() != null && !userToUpdate.getAddresses().isEmpty()) {
+            for (Address address : userToUpdate.getAddresses()) {
+                address.setUser(userToUpdate);
+            }
+        }
+        return userRepository.save(userToUpdate);
     }
 
     public void deleteUser (Long id){

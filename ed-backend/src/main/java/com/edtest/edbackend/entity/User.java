@@ -3,7 +3,9 @@ package com.edtest.edbackend.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Users")
@@ -26,7 +28,7 @@ public class User {
     private LocalDate birthdate;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Address> addresses = new ArrayList<>();
+    private Set<Address> addresses = new HashSet<>();
 
     public User() {
     }
@@ -71,12 +73,15 @@ public class User {
         this.birthdate = birthdate;
     }
 
-    public List<Address> getAddresses() {
+    public Set<Address> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses.clear();
+        if  (addresses != null) {
+            this.addresses.addAll(addresses);
+        }
     }
 
     public void addAddress(Address address) {

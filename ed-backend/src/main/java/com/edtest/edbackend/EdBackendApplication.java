@@ -8,7 +8,6 @@ public class EdBackendApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(EdBackendApplication.class, args);
-        System.out.println("Backend is running at http://localhost:8888");
     }
 
 }
