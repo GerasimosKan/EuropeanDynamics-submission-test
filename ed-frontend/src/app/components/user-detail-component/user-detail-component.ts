@@ -53,7 +53,7 @@ export class UserDetailComponent {
 
       this.user = updatedUser;
       this.isEditing = false;
-      window.location.reload(); 
+      window.location.reload();
     } catch (error) {
       console.error('Error updating user:', error);
     }

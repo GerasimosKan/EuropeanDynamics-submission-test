@@ -6,9 +6,9 @@ import { DisplayUsersComponent } from './components/display-users-component/disp
 import { UserDetailComponent } from './components/user-detail-component/user-detail-component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'register', component: RegisterUserComponent },
-  { path: '', component: DisplayUsersComponent },
+  { path: 'display-users', component: DisplayUsersComponent },
   { path: 'users/:id', component: UserDetailComponent },
   { path: '**', redirectTo: '' }
 ];

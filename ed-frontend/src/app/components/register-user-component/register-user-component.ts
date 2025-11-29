@@ -21,7 +21,9 @@ export class RegisterUserComponent {
     addresses: []
   };
 
+  successfulRegister=false;
   constructor(private userService: UserService) {}
+
 
   addAddress() {
     this.newUser.addresses.push({
@@ -38,9 +40,7 @@ export class RegisterUserComponent {
 
     this.userService.createUser(this.newUser).subscribe({
       next: () => {
-        alert('User created successfully!');
-        this.userCreated.emit();
-        window.location.reload(); 
+        this.successfulRegister= true;
       },
       error: (err) => console.error('Error creating user:', err)
     });

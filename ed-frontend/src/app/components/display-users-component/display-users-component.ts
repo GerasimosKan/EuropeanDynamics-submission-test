@@ -9,19 +9,11 @@ import { User } from '../../models/user';
   standalone: false,
   styleUrls: ['./display-users-component.css']
 })
-export class DisplayUsersComponent implements OnInit {
+export class DisplayUsersComponent {
   users$: Observable<User[]>;
   selectedUser: User | null = null;
 
   constructor(private userService: UserService) {
-    this.users$ = this.userService.getAllUsers();
-  }
-
-  ngOnInit(): void {
-    this.refreshUsers();
-  }
-
-  refreshUsers() {
     this.users$ = this.userService.getAllUsers();
   }
 

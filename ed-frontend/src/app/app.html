@@ -1,7 +1,5 @@
-<app-navbar-component (openRegister)="showRegister = true"></app-navbar-component>
+<app-navbar-component></app-navbar-component>
 
 <div class="container mx-auto p-4">
   <router-outlet></router-outlet>
 </div>
-
-<app-register-user *ngIf="showRegister" (close)="closeRegister()" (userCreated)="closeRegister()"></app-register-user>
