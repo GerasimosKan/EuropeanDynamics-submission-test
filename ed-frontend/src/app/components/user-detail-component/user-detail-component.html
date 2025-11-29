@@ -1,121 +1,118 @@
-<div class="fixed inset-0 flex items-center justify-center p-4 z-50"
-     style="background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(2px);"
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4"
+     style="background-color: rgba(0,0,0,0.4); backdrop-filter: blur(2px);"
      (click)="close.emit()">
 
-  <div class="bg-white rounded-lg shadow-2xl w-full max-w-lg transform transition-all duration-300 scale-100 max-h-[90vh] overflow-y-auto" 
+  <div class="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-white rounded-xl shadow-2xl"
        (click)="$event.stopPropagation()">
-    <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-3xl font-bold leading-none z-10"
+    <button class="absolute top-3 right-3 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition z-20"
             (click)="close.emit()">
-      ×
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
     </button>
-    
     <div class="p-6">
-      <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-800">
-          {{ isEditing ? 'Edit User' : 'User Details' }}
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-gray-800">
+          {{ isEditing ? 'Edit User' : 'User Profile' }}
         </h2>
-        
-        <div *ngIf="!isEditing" class="flex space-x-2 mr-8">
-          <button (click)="startEdit()" class="text-blue-600 hover:text-blue-800 font-medium transition">
+        <div *ngIf="!isEditing" class="flex gap-2 mr-8">
+          <!-- <button (click)="startEdit()" class="px-3 py-1 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition">
             Edit
-          </button>
-          <span class="text-gray-300">|</span>
-          <button (click)="deleteUser()" class="text-red-600 hover:text-red-800 font-medium transition">
+          </button> -->
+          <button (click)="requestDelete()" class="px-3 py-1 text-sm font-medium text-red-600 bg-red-50 rounded-lg hover:bg-red-100 transition">
             Delete
           </button>
         </div>
       </div>
       <div *ngIf="!isEditing && user" class="space-y-4">
-        <div class="grid grid-cols-2 gap-4 text-sm">
-          <div class="bg-gray-50 p-3 rounded border border-gray-100">
-            <span class="font-semibold text-gray-500 block text-xs uppercase mb-1">ID</span>
-            <span class="text-gray-900 font-medium">{{ user.id }}</span>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="p-3 bg-gray-50 rounded-lg">
+            <div class="text-xs font-bold text-gray-400 uppercase">Name</div>
+            <div class="text-sm font-semibold text-gray-900">{{ user.name }}</div>
           </div>
-          <div class="bg-gray-50 p-3 rounded border border-gray-100">
-            <span class="font-semibold text-gray-500 block text-xs uppercase mb-1">Birthdate</span>
-            <span class="text-gray-900 font-medium">{{ user.birthdate | date:'mediumDate' }}</span>
+          <div class="p-3 bg-gray-50 rounded-lg">
+            <div class="text-xs font-bold text-gray-400 uppercase">Surname</div>
+            <div class="text-sm font-semibold text-gray-900">{{ user.surname }}</div>
           </div>
-          <div class="bg-gray-50 p-3 rounded border border-gray-100">
-            <span class="font-semibold text-gray-500 block text-xs uppercase mb-1">Name</span>
-            <span class="text-gray-900 font-medium">{{ user.name }}</span>
+          <div class="p-3 bg-gray-50 rounded-lg">
+            <div class="text-xs font-bold text-gray-400 uppercase">Birthdate</div>
+            <div class="text-sm font-semibold text-gray-900">{{ user.birthdate | date:'mediumDate' }}</div>
           </div>
-          <div class="bg-gray-50 p-3 rounded border border-gray-100">
-            <span class="font-semibold text-gray-500 block text-xs uppercase mb-1">Surname</span>
-            <span class="text-gray-900 font-medium">{{ user.surname }}</span>
-          </div>
-          <div class="bg-gray-50 p-3 rounded border border-gray-100 col-span-2">
-            <span class="font-semibold text-gray-500 block text-xs uppercase mb-1">Gender</span>
-            <span class="text-gray-900 font-medium">{{ user.gender === 'M' ? 'Male' : 'Female' }}</span>
+          <div class="p-3 bg-gray-50 rounded-lg">
+            <div class="text-xs font-bold text-gray-400 uppercase">Gender</div>
+            <div class="text-sm font-semibold text-gray-900">{{ user.gender === 'M' ? 'Male' : 'Female' }}</div>
           </div>
         </div>
-
-        <div class="border-t pt-4 mt-4">
-          <h3 class="text-sm font-bold text-gray-700 uppercase mb-3">Addresses</h3>
-          <div *ngIf="user.addresses && user.addresses.length > 0; else noAddresses">
-            <div *ngFor="let addr of user.addresses" class="bg-blue-50 border border-blue-100 p-3 rounded-lg mb-2 flex items-center">
-              <span class="bg-blue-600 text-white text-[10px] px-2 py-1 rounded uppercase font-bold mr-3 tracking-wide">
+        <div>
+          <h3 class="mb-2 text-xs font-bold text-gray-400 uppercase">Addresses</h3>
+          <div *ngIf="user.addresses?.length; else noAddr" class="space-y-2">
+            <div *ngFor="let addr of user.addresses" class="flex items-center p-2 border rounded-lg">
+              <span class="px-2 py-1 mr-3 text-[10px] font-bold text-blue-700 uppercase bg-blue-100 rounded">
                 {{ addr.addressType }}
               </span>
-              <span class="text-gray-700 text-sm font-medium">{{ addr.addressText }}</span>
+              <span class="text-sm text-gray-700">{{ addr.addressText }}</span>
             </div>
           </div>
-          <ng-template #noAddresses>
-            <p class="text-gray-400 italic text-sm bg-gray-50 p-3 rounded text-center">No addresses provided.</p>
+          <ng-template #noAddr>
+            <p class="text-sm italic text-gray-400">No addresses found.</p>
           </ng-template>
         </div>
       </div>
       <div *ngIf="isEditing && editUser" class="space-y-4">
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Name</label>
-            <input [(ngModel)]="editUser.name" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <label class="block text-xs font-medium text-gray-500">Name</label>
+            <input [(ngModel)]="editUser.name" class="w-full p-2 mt-1 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
           </div>
           <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Surname</label>
-            <input [(ngModel)]="editUser.surname" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <label class="block text-xs font-medium text-gray-500">Surname</label>
+            <input [(ngModel)]="editUser.surname" class="w-full p-2 mt-1 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
           </div>
           <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Gender</label>
-            <select [(ngModel)]="editUser.gender" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <label class="block text-xs font-medium text-gray-500">Gender</label>
+            <select [(ngModel)]="editUser.gender" class="w-full p-2 mt-1 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
               <option value="M">Male</option>
               <option value="F">Female</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Birthdate</label>
-            <input type="date" [(ngModel)]="editUser.birthdate" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <label class="block text-xs font-medium text-gray-500">Birthdate</label>
+            <input type="date" [(ngModel)]="editUser.birthdate" class="w-full p-2 mt-1 text-sm border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
           </div>
         </div>
-        <div class="border-t pt-4">
-          <div class="flex justify-between items-center mb-2">
-            <h3 class="text-sm font-bold text-gray-700 uppercase">Addresses</h3>
-            <button (click)="addAddress()" class="text-xs bg-green-50 text-green-600 border border-green-200 px-3 py-1 rounded hover:bg-green-100 font-medium transition">
-              + Add New
-            </button>
+        <div class="pt-2 border-t">
+          <div class="flex justify-between mb-2">
+            <label class="text-xs font-medium text-gray-500">Addresses</label>
+            <button (click)="addAddress()" class="text-xs font-medium text-blue-600 hover:underline">+ Add New</button>
           </div>
-          
-          <div class="space-y-2 max-h-40 overflow-y-auto pr-1">
-            <div *ngIf="editUser.addresses.length === 0" class="text-gray-400 text-xs italic">No addresses added yet.</div>
-            <div *ngFor="let addr of editUser.addresses; let i = index" class="flex gap-2 items-center">
-              <select [(ngModel)]="addr.addressType" class="border border-gray-300 rounded px-2 py-1 text-sm w-24 focus:outline-none">
+          <div class="space-y-2 max-h-32 overflow-y-auto">
+            <div *ngFor="let addr of editUser.addresses; let i = index" class="flex gap-2">
+              <select [(ngModel)]="addr.addressType" class="w-20 p-1 text-xs border rounded focus:outline-none">
                 <option value="home">Home</option>
                 <option value="work">Work</option>
               </select>
-              <input [(ngModel)]="addr.addressText" placeholder="Enter address..." class="border border-gray-300 rounded px-2 py-1 text-sm grow focus:outline-none focus:border-blue-400">
-              <button (click)="removeAddress(i)" class="text-red-400 hover:text-red-600 px-2 text-xl leading-none">×</button>
+              <input [(ngModel)]="addr.addressText" class="flex-1 p-1 text-xs border rounded focus:outline-none" placeholder="Address...">
+              <button (click)="removeAddress(i)" class="text-red-400 hover:text-red-600">×</button>
             </div>
           </div>
         </div>
-        <div class="flex space-x-3 pt-4 border-t mt-4">
-          <button (click)="saveChanges()" class="flex-1 bg-blue-600 text-white py-2.5 rounded-lg hover:bg-blue-700 font-medium shadow-sm transition">
-            Save Changes
-          </button>
-          <button (click)="cancelEdit()" class="flex-1 bg-gray-100 text-gray-700 border border-gray-300 py-2.5 rounded-lg hover:bg-gray-200 font-medium transition">
-            Cancel
-          </button>
+        <div class="flex gap-3 pt-2">
+          <button (click)="saveChanges()" class="flex-1 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">Save</button>
+          <button (click)="cancelEdit()" class="flex-1 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Cancel</button>
         </div>
       </div>
-
+    </div>
+    <div *ngIf="showDeleteConfirmation" 
+         class="absolute inset-0 z-30 flex flex-col items-center justify-center p-6 bg-white bg-opacity-95 backdrop-blur-sm rounded-xl">
+        <div class="p-3 mb-4 bg-red-100 rounded-full">
+            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        </div>
+        <h3 class="text-lg font-bold text-gray-900">Delete User?</h3>
+        <p class="mb-6 text-sm text-center text-gray-500">
+            Are you sure you want to remove <b>{{user?.name}}</b>? This cannot be undone.
+        </p>
+        <div class="flex w-full gap-3">
+            <button (click)="cancelDelete()" class="flex-1 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200">Cancel</button>
+            <button (click)="confirmDelete()" class="flex-1 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700">Delete</button>
+        </div>
     </div>
   </div>
 </div>
